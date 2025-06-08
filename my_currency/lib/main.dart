@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
 
     // Types of widgets :
     // 1. StatefulWidget
-    // 2. StatelessWidget
+    // 2. StatelessWidget >> A widget without state (not sure)
 
     // State : Status of the app
 
