@@ -20,11 +20,11 @@ class MyCurrency extends StatelessWidget {
         child: ColoredBox(
           color: Color.fromRGBO(0, 0, 0, 1),
 
-          // ColoredBox is to see how "Column" is used the "Scaffold" space by colored it out.
+          // ColoredBox is to see how "Column" is used in the "Scaffold" space by colored it out.
 
           child: Column(
 
-            // "Column" is the way to arrange the widgets.
+            // "Column" is the way to arrange the widgets as columns.
             
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
