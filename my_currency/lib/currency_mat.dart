@@ -69,7 +69,10 @@ class MyCurrency extends StatelessWidget {
                           size: 22,
                         ),
                       prefixIconConstraints: BoxConstraints(maxHeight: 25, minWidth: 10),
-                      contentPadding: EdgeInsetsGeometry.all(18)
+                      contentPadding: EdgeInsetsGeometry.all(18),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(0, 0, 0, 1))
+                        ),
                     ),
                     
                 ),
