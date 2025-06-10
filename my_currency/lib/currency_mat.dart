@@ -4,21 +4,44 @@ class MyCurrency extends StatelessWidget {
   const MyCurrency({super.key});
 
   @override
-  Widget build(BuildContext) {
+  Widget build(BuildContext context) {
+
+    final backgroundColor = Color.fromRGBO(247, 249, 249, 1);
+    final secondColor = Color.fromRGBO(23, 32, 42, 1);
+    final highlightColor = Color.fromRGBO(229, 255, 0, 1);
+
+    double myResults = 0;
+    final TextEditingController myTextCon = TextEditingController();
 
     // We treat the "MaterialApp" as a background (In "main.dart" file), and then paste the "Scaffold" on it.
 
-    return const Scaffold(
+    return Scaffold(
 
       // "Scaffold" is the space where we can put any widget into it.
+      // "appBar" is like NavBar. If your are curious, you can change the backgroundColor to see it.
+      // in "appBar" there is an actions property, this property always being used as a setting icon or something more.
+      // We will not do it here, yet.
 
-      backgroundColor: Color.fromRGBO(0, 0, 0, 1),
+      appBar: AppBar(
+          title: Text(
+                  'Currency converter', 
+                  style: TextStyle(
+                    color: secondColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    ),
+                  ),
+          backgroundColor: backgroundColor,
+          elevation: 0,
+        ),
+
+      backgroundColor: backgroundColor,
       body: Center(
 
         // So, in the "Scaffold" we put the "Center" widget which has a "Text" in it.
 
         child: ColoredBox(
-          color: Color.fromRGBO(0, 0, 0, 1),
+          color: backgroundColor,
 
           // ColoredBox is to see how "Column" is used in the "Scaffold" space by colored it out.
 
@@ -30,28 +53,40 @@ class MyCurrency extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             
             children: [
-              Text(
-                'Hello, World !', 
-                style: TextStyle(
-                  color: Color.fromRGBO(247, 249, 249, 1),
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  ),
-                ),
+              Container(
 
-                TextField(
+                // Padding is the space inside
+                // Margin is the space outside
 
-                  // Style of an user's input text.
+                padding: EdgeInsets.all(10.0),
+                margin: EdgeInsets.all(0.0),
+                // color: Color.fromRGBO(229, 255, 0, 1),
 
+                child: Text(
+                  myResults.toString(), 
                   style: TextStyle(
-                      color: Color.fromRGBO(247, 249, 249, 1),
+                    color: secondColor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              ),
+
+              Container(
+                padding: EdgeInsets.fromLTRB(30, 30, 30, 10),
+                child: TextField(
+                
+                  // Style of an user's input text.
+                
+                  style: TextStyle(
+                      color: secondColor,
                       fontSize: 14,
                     ),
-
-                  keyboardType: TextInputType.number,
-
+                
+                  keyboardType: TextInputType.numberWithOptions(decimal: true,),
+                
                   // style of an input hint text or label text.
-
+                
                   decoration: InputDecoration(
                       // labelStyle: TextStyle(
                       //   color: Color.fromRGBO(247, 249, 249, 1),
@@ -60,21 +95,80 @@ class MyCurrency extends StatelessWidget {
                       // labelText: 'Input',
                       hintText: ' Please enter your amount in USD.',
                       hintStyle: TextStyle(
-                          color: Color.fromRGBO(247, 249, 249, 1),
+                          color: secondColor,
                           fontSize: 14,
                         ),
-                      prefixIcon: Icon(
-                          Icons.monetization_on_outlined, 
-                          color: Color.fromRGBO(247, 249, 249, 1),
-                          size: 22,
-                        ),
+                      prefixIcon: Padding(
+                          padding: EdgeInsetsGeometry.only(left: 20.0, bottom: 2.0, right: 10.0, top: 2.0),
+                          child: Icon(
+                            Icons.monetization_on_outlined, 
+                            color: secondColor,
+                            size: 22,
+                            ),
+                          ),
                       prefixIconConstraints: BoxConstraints(maxHeight: 25, minWidth: 10),
-                      contentPadding: EdgeInsetsGeometry.all(18),
+                      contentPadding: EdgeInsetsGeometry.all(20.0),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromRGBO(0, 0, 0, 1))
+                          borderSide: BorderSide(color: highlightColor, 
+                            width: 4.0,
+                            style: BorderStyle.solid, // ".none" It's mean not showing the borderline
+                            ),
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
                         ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(style: BorderStyle.none,),
+                        ),
+                      
                     ),
                     
+                    controller: myTextCon,
+                    onSubmitted: (value) {
+                      debugPrint('\n [ USER\'S LOG ] The value : $value has been submitted.\n');
+                    },
+
+                ),
+              ),
+
+              TextButton(
+                onPressed: () {
+
+                  // In Flutter there are 3 types of mode :
+                  // 1. Debug mode
+                  // 2. Release mode : is how users can experience your app. 
+                  //                    Type : $ flutter run --release 
+                  //                    ,To experience the app on real mobile phone
+                  // 3. Profile mode : is happen to check whether each mode is correctly managed
+
+                  // if (kDebugMode) {
+                  //   debugPrint('Button clicked.');
+                  // }
+
+                  try {
+                    myResults = double.parse(myTextCon.text) * 2;
+                    print('[ USER\'S LOG ] The value of : ${myTextCon.text} has been sent to CONVERT to --> ${myResults} USD.');
+                  } 
+                  catch (e, s) {
+                    print(' [ ERROR ] $e : $s');
+                  }
+                  
+                  
+                }, 
+                style: ButtonStyle(
+                    elevation: WidgetStatePropertyAll(6),
+                    backgroundColor: WidgetStatePropertyAll(highlightColor),
+                    foregroundColor: WidgetStatePropertyAll(secondColor),
+                    minimumSize: WidgetStatePropertyAll(Size(160, 60)),
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.all(Radius.circular(10.0)))
+                    ),
+                  ),
+                // in style part you can also do this : TextButton.styleFrom()
+                // so, you can put any properties that required in TextButton.styleFrom() instead of using ButtonStyle()
+
+                child: Text(
+                    'CONVERT !',
+                    textAlign: TextAlign.center,
+                    ),
                 ),
 
             ],
