@@ -41,6 +41,13 @@ class _MyCurrencyState extends State<MyCurrency> {
       }
   }
 
+  // This one is to clear the states.
+  @override
+  void dispose() {
+    myTextCon.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 
