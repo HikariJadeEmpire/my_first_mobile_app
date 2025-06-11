@@ -1,7 +1,45 @@
 import 'package:flutter/material.dart';
 
-class MyCurrency extends StatelessWidget {
+class MyCurrency extends StatefulWidget {
+
   const MyCurrency({super.key});
+
+  @override
+  State<MyCurrency> createState() {
+    return _MyCurrencyState();
+  }
+}
+
+// create a private class below because we don't need to show it to public.
+
+class _MyCurrencyState extends State<MyCurrency> {
+
+  // Now you can put the variables which use for parsing between widget here.
+
+  double myResults = 0;
+  String explain = 'Hello, world !';
+  final TextEditingController myTextCon = TextEditingController();
+
+  // setting convert function
+
+  void converto () {
+    try {
+        setState(() {
+            explain = 'The Double value is';
+            myResults = double.parse(myTextCon.text) * 2;
+          }
+        );
+        debugPrint('[ USER\'S LOG ] The value of : ${myTextCon.text} has been sent to CONVERT to --> ${myResults}');
+      } 
+    catch (e, s) {
+      debugPrint(' [ ERROR ] $e : $s');
+      setState(() {
+          explain = 'Your input should not contain any special characters like , @ \$ or space';
+          myResults = 0;
+          }
+        );
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -9,9 +47,6 @@ class MyCurrency extends StatelessWidget {
     final backgroundColor = Color.fromRGBO(247, 249, 249, 1);
     final secondColor = Color.fromRGBO(23, 32, 42, 1);
     final highlightColor = Color.fromRGBO(229, 255, 0, 1);
-
-    double myResults = 0;
-    final TextEditingController myTextCon = TextEditingController();
 
     // We treat the "MaterialApp" as a background (In "main.dart" file), and then paste the "Scaffold" on it.
 
@@ -24,11 +59,11 @@ class MyCurrency extends StatelessWidget {
 
       appBar: AppBar(
           title: Text(
-                  'Currency converter', 
+                  'I will double your input number', 
                   style: TextStyle(
                     color: secondColor,
                     fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                     ),
                   ),
           backgroundColor: backgroundColor,
@@ -53,6 +88,26 @@ class MyCurrency extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             
             children: [
+
+              Container(
+
+                // Padding is the space inside
+                // Margin is the space outside
+
+                padding: EdgeInsets.all(30.0),
+                margin: EdgeInsets.all(0.0),
+                // color: Color.fromRGBO(229, 255, 0, 1),
+
+                child: Text(
+                  explain, 
+                  style: TextStyle(
+                    color: secondColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    ),
+                  ),
+              ),
+
               Container(
 
                 // Padding is the space inside
@@ -63,12 +118,13 @@ class MyCurrency extends StatelessWidget {
                 // color: Color.fromRGBO(229, 255, 0, 1),
 
                 child: Text(
-                  myResults.toString(), 
+                  myResults.toStringAsFixed(3), 
                   style: TextStyle(
                     color: secondColor,
-                    fontSize: 24,
+                    fontSize: 44,
                     fontWeight: FontWeight.bold,
                     ),
+                  textAlign: TextAlign.center,
                   ),
               ),
 
@@ -93,7 +149,7 @@ class MyCurrency extends StatelessWidget {
                       //   fontSize: 20,
                       // ),
                       // labelText: 'Input',
-                      hintText: ' Please enter your amount in USD.',
+                      hintText: 'Please enter your amount.',
                       hintStyle: TextStyle(
                           color: secondColor,
                           fontSize: 14,
@@ -123,36 +179,27 @@ class MyCurrency extends StatelessWidget {
                     
                     controller: myTextCon,
                     onSubmitted: (value) {
-                      debugPrint('\n [ USER\'S LOG ] The value : $value has been submitted.\n');
+                      // In Flutter there are 3 types of mode :
+                      // 1. Debug mode
+                      // 2. Release mode : is how users can experience your app. 
+                      //                    Type : $ flutter run --release 
+                      //                    ,To experience the app on real mobile phone
+                      // 3. Profile mode : is happen to check whether each mode is correctly managed
+
+                      // if (kDebugMode) {
+                      //   debugPrint('Button clicked.');
+                      // }
+
+                      debugPrint('[ USER\'S LOG ] The value : $value has been submitted.');
+                      converto();
+                      
                     },
 
                 ),
               ),
 
               TextButton(
-                onPressed: () {
-
-                  // In Flutter there are 3 types of mode :
-                  // 1. Debug mode
-                  // 2. Release mode : is how users can experience your app. 
-                  //                    Type : $ flutter run --release 
-                  //                    ,To experience the app on real mobile phone
-                  // 3. Profile mode : is happen to check whether each mode is correctly managed
-
-                  // if (kDebugMode) {
-                  //   debugPrint('Button clicked.');
-                  // }
-
-                  try {
-                    myResults = double.parse(myTextCon.text) * 2;
-                    print('[ USER\'S LOG ] The value of : ${myTextCon.text} has been sent to CONVERT to --> ${myResults} USD.');
-                  } 
-                  catch (e, s) {
-                    print(' [ ERROR ] $e : $s');
-                  }
-                  
-                  
-                }, 
+                onPressed: converto, 
                 style: ButtonStyle(
                     elevation: WidgetStatePropertyAll(6),
                     backgroundColor: WidgetStatePropertyAll(highlightColor),
@@ -177,5 +224,4 @@ class MyCurrency extends StatelessWidget {
       )
     );
   }
-
 }
