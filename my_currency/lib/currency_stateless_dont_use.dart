@@ -145,7 +145,7 @@ class MyCurrency2 extends StatelessWidget {
 
                   try {
                     myResults = double.parse(myTextCon.text) * 2;
-                    print('[ USER\'S LOG ] The value of : ${myTextCon.text} has been sent to CONVERT to --> ${myResults} USD.');
+                    print('[ USER\'S LOG ] The value of : ${myTextCon.text} has been sent to CONVERT to --> $myResults USD.');
                   } 
                   catch (e, s) {
                     print(' [ ERROR ] $e : $s');

@@ -29,7 +29,7 @@ class _MyCurrencyState extends State<MyCurrency> {
             myResults = double.parse(myTextCon.text) * 2;
           }
         );
-        debugPrint('[ USER\'S LOG ] The value of : ${myTextCon.text} has been sent to CONVERT to --> ${myResults}');
+        debugPrint('[ USER\'S LOG ] The value of : ${myTextCon.text} has been sent to CONVERT to --> $myResults');
       } 
     catch (e, s) {
       debugPrint(' [ ERROR ] $e : $s');
